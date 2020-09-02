@@ -33,5 +33,12 @@ npm-debug.log
 # this depending on your deployment strategy.
 /priv/static/
 
-
 .elixir_ls/
+
+# Terraform files
+.terraform
+terraform.tfstate
+terraform.tfvars
+*.tfstate*
+terraform-provider*v*
+current.plan
