@@ -66,13 +66,13 @@ defmodule NookBook.Data.Setup do
   def stop_mnesia_everywhere do
     [:visible]
     |> Node.list()
-    |> Enum.each(&Node.spawn_link(&1, :mnesia.stop/0))
+    |> Enum.each(&Node.spawn_link(&1, :mnesia.stop() / 0))
   end
 
   def start_mnesia_everywhere do
     [:visible]
     |> Node.list()
-    |> Enum.each(&Node.spawn_link(&1, :mnesia.start/0))
+    |> Enum.each(&Node.spawn_link(&1, :mnesia.start() / 0))
   end
 
   def nodes, do: [node() | Node.list([:visible])]
