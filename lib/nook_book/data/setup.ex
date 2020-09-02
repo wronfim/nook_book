@@ -1,12 +1,47 @@
 defmodule NookBook.Data.Setup do
+  require Logger
+
   @tables [
     NookBook.Data.GenericCache
   ]
 
-  def setup do
+  def setup(:primary) do
+    Logger.info("Setting up mnesia for primary node")
     :mnesia.start()
     create_schema()
     create_tables()
+  end
+
+  def setup(:member) do
+    :nook_book
+    |> Application.get_env(:primary_node)
+    |> Node.connect()
+
+    Logger.info("Setting up mnesia for member node, cluster peers:")
+    Logger.info(inspect(nodes()))
+
+    [existing_node | _] = Node.list([:visible])
+    node = Node.self()
+    :mnesia.start()
+    {:ok, _} = :rpc.call(existing_node, :mnesia, :change_config, [:extra_db_nodes, [node]])
+
+    :mnesia.change_table_copy_type(:schema, node, :disc_copies)
+    :mnesia.add_table_copy(:schema, node, :disc_copies)
+    sync_remote_tables_to_local_disk()
+  end
+
+  def sync_remote_tables_to_local_disk do
+    node = Node.self()
+
+    :mnesia.system_info(:tables)
+    |> Enum.each(fn table ->
+      if node in :mnesia.table_info(table, :disc_copies) do
+        :ok
+      else
+        Logger.info("Syncing #{table}")
+        :mnesia.add_table_copy(:schema, node, :disc_copies)
+      end
+    end)
   end
 
   def create_tables do
