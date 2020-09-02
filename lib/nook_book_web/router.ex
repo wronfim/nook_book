@@ -17,7 +17,10 @@ defmodule NookBookWeb.Router do
   scope "/", NookBookWeb do
     pipe_through :browser
 
-    live "/", PageLive, :index
+    live "/", NookBookLive, :index
+    get("/icons/:namespace/:id", ImageController, :icon)
+    get("/images/:namespace/:id", ImageController, :image)
+
   end
 
   # Other scopes may use custom stacks.

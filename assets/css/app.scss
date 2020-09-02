@@ -3,6 +3,12 @@
 @import "../node_modules/nprogress/nprogress.css";
 
 /* LiveView specific classes for your customizations */
+.invalid-feedback {
+  color: #a94442;
+  display: block;
+  margin: -1rem 0 2rem;
+}
+
 .phx-no-feedback.invalid-feedback,
 .phx-no-feedback .invalid-feedback {
   display: none;
@@ -13,15 +19,15 @@
   transition: opacity 1s ease-out;
 }
 
-.phx-disconnected{
+.phx-disconnected {
   cursor: wait;
 }
-.phx-disconnected *{
+.phx-disconnected * {
   pointer-events: none;
 }
 
 .phx-modal {
-  opacity: 1!important;
+  opacity: 1 !important;
   position: fixed;
   z-index: 1;
   left: 0;
@@ -29,8 +35,8 @@
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgb(0,0,0);
-  background-color: rgba(0,0,0,0.4);
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
 .phx-modal-content {
@@ -54,7 +60,6 @@
   text-decoration: none;
   cursor: pointer;
 }
-
 
 /* Alerts and form errors */
 .alert {
@@ -84,8 +89,53 @@
 .alert:empty {
   display: none;
 }
-.invalid-feedback {
-  color: #a94442;
-  display: block;
-  margin: -1rem 0 2rem;
+
+.collection-header {
+  background-color: #f2af5e;
+  border-radius: 12px 12px 0px 0px;
+  text-align: center;
+  cursor: pointer;
+  margin-bottom: 0px;
+}
+
+.collection {
+  list-style-type: none;
+  border-color: #f2af5e;
+  border-width: 5px;
+  border-style: solid;
+}
+
+.collection li {
+  display: inline-block;
+  width: 130px;
+  cursor: pointer;
+}
+
+.record {
+  border-color: #000000;
+  border-width: 5px;
+  border-style: solid;
+  position: absolute;
+  top: 100px;
+  left: 50px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  width: 600px;
+}
+
+.record h2 {
+  background-color: #f2af5e;
+  text-align: center;
+  width: 550px;
+  display: inline-block;
+}
+
+.record .close {
+  background-color: #000000;
+  color: #ffffff;
+  border-color: #000000;
+  text-align: center;
+  width: 40px;
+  display: inline-block;
+  cursor: pointer;
 }
