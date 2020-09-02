@@ -1,7 +1,26 @@
 import Config
 
+name = "well"
+
+config :libcluster,
+  topologies: [
+    nook_book: [
+      strategy: Cluster.Strategy.Epmd,
+      config: [
+        hosts: [
+          :"nook_book@10.0.1.54",
+          :"nook_book@10.0.1.219"
+        ]
+      ]
+    ]
+  ]
+
+config :nook_book,
+  cluster_role: System.get_env("CLUSTER_ROLE", "member") |> String.to_atom(),
+  base_uri: "http://#{name}.nookbook.online"
+
 config :nook_book, NookBookWeb.Endpoint,
   server: true,
   http: [port: 4000],
-  url: [host: "localhost"],
-  secret_key_base: "lilVS+Vb+sQ6csT7aJp0DoWh7QjnDuV29FYbEuv/eWZ17y+pH6XJ7LwT++frlgg9"
+  url: [host: "#{name}.nookbook.online"],
+  secret_key_base: "p6Ws6Q1cFzoCUjkOhiBsKwjXiRpJ/E26ryJ7tTzXVrZsavqS2RG3eznc4Mp2KubF"

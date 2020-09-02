@@ -7,6 +7,8 @@ defmodule NookBook.Application do
 
   def start(_type, _args) do
     children = [
+      {Cluster.Supervisor,
+       [Application.get_env(:libcluster, :topologies), [name: NookBook.ClusterSupervisor]]},
       # Start the Telemetry supervisor
       NookBookWeb.Telemetry,
       # Start the PubSub system
@@ -24,8 +26,7 @@ defmodule NookBook.Application do
   end
 
   def start_phase(:init, :normal, _) do
-    :nook_book
-    |> Application.get_env(:cluster_role)
+    Application.get_env(:nook_book, :cluster_role)
     |> NookBook.Data.Setup.setup()
   end
 
