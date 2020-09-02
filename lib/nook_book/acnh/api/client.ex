@@ -5,7 +5,7 @@ defmodule NookBook.ACNH.API.Client do
   plug(Tesla.Middleware.BaseUrl, "https://acnhapi.com/v1a")
   plug(Tesla.Middleware.JSON)
 
-  def bugs() do
+  def bugs do
     "/bugs/"
     |> get()
     |> Private.unwrap_response()
@@ -29,7 +29,7 @@ defmodule NookBook.ACNH.API.Client do
     |> Private.unwrap_response()
   end
 
-  def fish() do
+  def fish do
     "/fish/"
     |> get()
     |> Private.unwrap_response()
@@ -53,7 +53,7 @@ defmodule NookBook.ACNH.API.Client do
     |> Private.unwrap_response()
   end
 
-  def sea_creatures() do
+  def sea_creatures do
     "/sea/"
     |> get()
     |> Private.unwrap_response()
@@ -84,6 +84,7 @@ defmodule NookBook.ACNH.API.Client do
       response
       |> inspect()
       |> Logger.info()
+
       # In  case the API is down, don't crash our system
       nil
     end
