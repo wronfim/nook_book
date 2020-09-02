@@ -17,20 +17,22 @@ defmodule NookBook.Data.Setup do
   end
 
   def schema_exists_anywhere? do
-    {answers, _} = :rpc.multicall(nodes(), NookBook.Data.Setup, :schema_exists?, [])
-    Enum.any?(answers, fn x -> x end)
+    nodes()
+    |> :rpc.multicall(__MODULE__, :schema_exists?, [])
+    |> elem(0)
+    |> Enum.any?()
   end
 
   def stop_mnesia_everywhere do
     [:visible]
     |> Node.list()
-    |> Enum.each(fn node -> Node.spawn_link(node, :mnesia.stop/0) end)
+    |> Enum.each(&Node.spawn_link(&1, :mnesia.stop/0))
   end
 
   def start_mnesia_everywhere do
     [:visible]
     |> Node.list()
-    |> Enum.each(fn node -> Node.spawn_link(node, :mnesia.start/0) end)
+    |> Enum.each(&Node.spawn_link(&1, :mnesia.start/0))
   end
 
   def nodes, do: [node() | Node.list([:visible])]
